@@ -1,0 +1,19 @@
+# Merged over the theme's `en` locale. Chirpy looks up tab labels here by
+# file name, and the page <title> has no fallback, so every custom tab needs one.
+tabs:
+  blog: Blog
+  widgets: Widgets
+  projects: Projects
+  live: Live
+
+search:
+  hint: search posts
+
+# Chirpy 7.6 reads this key but no locale defines it
+post:
+  pin_prompt: Pinned
+
+# The mobile topbar falls back to the layout name, and only the 404 page uses
+# the bare default layout
+layout:
+  default: Page not found

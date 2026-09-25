@@ -1,0 +1,135 @@
+<!--
+  The memo-pad sidebar. Replaces Chirpy's version: brand wordmark, doodle
+  nav icons, and a Twitch link. The theme-mode toggle lives in the footer.
+-->
+
+<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column">
+  <header class="sidebar-profile">
+    <a href="{{ '/' | relative_url }}" class="profile-link">
+      <span
+        class="wordmark"
+        style="--wordmark: url('{{ '/assets/img/brand/wordmark.svg' | relative_url }}')"
+        aria-hidden="true"
+      ></span>
+      <span class="visually-hidden">{{ site.title }}</span>
+      {%- if site.avatar != empty and site.avatar -%}
+        {%- capture avatar_url -%}
+          {% include media-url.html src=site.avatar %}
+        {%- endcapture -%}
+        <span class="sidebar-avatar">
+          <img src="{{- avatar_url -}}" width="112" height="112" alt="" onerror="this.style.display='none'">
+        </span>
+      {%- endif -%}
+    </a>
+  </header>
+
+  <nav aria-label="Primary" class="sidebar-nav">
+    <ul>
+      {% assign home_active = false %}
+      {% if page.layout == 'home' %}{% assign home_active = true %}{% endif %}
+      <li>
+        <a href="{{ '/' | relative_url }}" class="sidebar-link"{% if home_active %} aria-current="page"{% endif %}>
+          <span
+            class="doodle"
+            style="--doodle: url('{{ '/assets/img/brand/doodles/website.svg' | relative_url }}')"
+            aria-hidden="true"
+          ></span>
+          <span>{{ site.data.locales[include.lang].tabs.home }}</span>
+        </a>
+      </li>
+
+      {% for tab in site.tabs %}
+        {% if tab.sidebar == false %}
+          {% continue %}
+        {% endif %}
+
+        {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
+        {% assign tab_active = false %}
+        {% if tab.url == page.url %}{% assign tab_active = true %}{% endif %}
+
+        <li>
+          <a href="{{ tab.url | relative_url }}" class="sidebar-link"{% if tab_active %} aria-current="page"{% endif %}>
+            {% if tab.doodle %}
+              {%- capture doodle_path -%}/assets/img/brand/doodles/{{ tab.doodle }}.svg{%- endcapture -%}
+              <span
+                class="doodle"
+                style="--doodle: url('{{ doodle_path | relative_url }}')"
+                aria-hidden="true"
+              ></span>
+            {% else %}
+              <i class="fa-fw {{ tab.icon }}" aria-hidden="true"></i>
+            {% endif %}
+            <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    {% if site.twitch.username %}
+      <a
+        class="twitch-link"
+        href="https://www.twitch.tv/{{ site.twitch.username }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fa-brands fa-twitch" aria-hidden="true"></i>
+        <span>twitch.tv/{{ site.twitch.username }}</span>
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+      </a>
+    {% endif %}
+
+    <div class="contact-links">
+      {% for entry in site.data.contact %}
+        {%- assign url = null -%}
+
+        {% case entry.type %}
+          {% when 'github', 'twitter' %}
+            {%- unless site[entry.type].username -%}
+              {%- continue -%}
+            {%- endunless -%}
+            {%- capture url -%}
+              https://{{ entry.type }}.com/{{ site[entry.type].username }}
+            {%- endcapture -%}
+          {% when 'email' %}
+            {%- unless site.social.email -%}
+              {%- continue -%}
+            {%- endunless -%}
+            {%- assign email = site.social.email | split: '@' -%}
+            {%- capture url -%}
+              javascript:void(location.href = 'mailto:' + ['{{ email[0] }}','{{ email[1] }}'].join('@'))
+            {%- endcapture -%}
+          {% when 'rss' %}
+            {% assign url = '/feed.xml' | relative_url %}
+          {% else %}
+            {% assign url = entry.url %}
+        {% endcase %}
+
+        {% if url %}
+          <a
+            href="{{ url }}"
+            aria-label="{{ entry.type }}"
+            {% assign link_types = '' %}
+
+            {% unless entry.noblank %}
+              target="_blank"
+              {% assign link_types = 'noopener noreferrer' %}
+            {% endunless %}
+
+            {% if entry.type == 'mastodon' %}
+              {% assign link_types = link_types | append: ' me' | strip %}
+            {% endif %}
+
+            {% unless link_types == empty %}
+              rel="{{ link_types }}"
+            {% endunless %}
+          >
+            <i class="{{ entry.icon }}" aria-hidden="true"></i>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</aside>
+<!-- #sidebar -->

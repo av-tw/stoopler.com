@@ -1,0 +1,9 @@
+<div class="post-list-empty">
+  <p>No posts here yet.</p>
+  {% if site.twitch.username %}
+    <p>
+      Catch what's in progress on
+      <a href="https://www.twitch.tv/{{ site.twitch.username }}">twitch.tv/{{ site.twitch.username }}</a>.
+    </p>
+  {% endif %}
+</div>
