@@ -1,0 +1,281 @@
+/* Typography, links, focus, and small utilities shared by every page. */
+
+@use 'abstracts/breakpoints' as bp;
+@use 'tokens' as t;
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+code,
+kbd,
+pre,
+samp,
+.code-header {
+  font-family: t.$font-mono;
+}
+
+::selection {
+  /* The brand's "error blue" doubles as the text highlight, like its BSOD screens */
+  background-color: t.$error-blue;
+  color: #ffffff;
+}
+
+/* One focus treatment everywhere */
+:focus-visible {
+  outline: 2px solid var(--st-focus);
+  outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.dropdown-item:focus-visible {
+  outline-offset: 1px;
+}
+
+/* Bootstrap draws its own focus ring as a box-shadow, up to (0,4,0) specificity */
+.btn:focus-visible,
+.nav-link:focus-visible {
+  box-shadow: none !important;
+}
+
+/* Bootstrap's version is purged from Chirpy's production CSS */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/*
+ * Chirpy's hover state is a hard-coded orange with `!important`. This list
+ * mirrors every selector that extends `%link-hover` in Chirpy 7.6, so the
+ * brand hover wins. Re-check it against the compiled CSS after a theme upgrade.
+ */
+#page-category a:hover,
+#page-tag a:hover,
+.content a:not(.img-link):hover,
+.post-meta a:not([class]):hover,
+.post-tail-wrapper .license-wrapper > a:hover,
+.post-edit > a:hover,
+#access-lastmod a:hover,
+#search-results a:hover,
+#topbar #breadcrumb a:hover,
+footer a:hover {
+  color: var(--link-hover-color) !important;
+  border-bottom-color: currentColor;
+}
+
+/* Prose links. Chirpy also uses `.content` for the side panel and search, hence `main`. */
+main .content {
+  a:not(.img-link) {
+    border-bottom: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline-color);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+
+    &:hover {
+      border-bottom: 0;
+      text-decoration-line: underline;
+      text-decoration-color: currentColor;
+    }
+  }
+
+  code.highlighter-rouge {
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+}
+
+/* Index pages render inside `.content` too, but their links are navigation */
+main :is(#archives, .categories, #tags, #page-category, #page-tag) a:not(.img-link) {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+/* Tag chips: the post list, post footers, and the tags page share one look */
+%tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background-color: var(--st-chip-bg);
+  color: var(--st-chip-text);
+  font-family: t.$font-mono;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--st-chip-hover-bg);
+    color: var(--st-chip-text) !important;
+    border-bottom: 0;
+  }
+}
+
+.tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    @extend %tag-chip;
+  }
+}
+
+a.post-tag,
+.post-tags .post-tag {
+  @extend %tag-chip;
+
+  min-width: 0;
+  margin: 0 0.35rem 0.5rem 0;
+}
+
+/* Tags index: bigger chips with a post count */
+#tags {
+  gap: 0.6rem;
+
+  .tag {
+    @extend %tag-chip;
+
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.9rem;
+    box-shadow: none;
+
+    span {
+      margin-left: 0.15rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+/* Page heading block shared by the home page and category tabs */
+.page-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem 0 1.75rem;
+  border-bottom: 1px solid var(--main-border-color);
+
+  @include bp.lg {
+    padding-top: 3rem;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--heading-color);
+    font-size: clamp(2.25rem, 1.75rem + 1.5vw, 3rem);
+    line-height: 1.1;
+  }
+
+  p {
+    margin: 0.6rem 0 0;
+    color: var(--text-muted-color);
+    font-size: 1.15rem;
+    line-height: 1.5;
+
+    @include bp.lg {
+      font-size: 1.25rem;
+    }
+  }
+
+  h1.dynamic-title + p {
+    @include bp.lt(bp.get(lg)) {
+      margin-top: 0;
+    }
+  }
+}
+
+/* Chirpy page titles (Blog, Live, About, Tags) match the intro heading size */
+article > h1.dynamic-title {
+  font-size: clamp(2.25rem, 1.75rem + 1.5vw, 3rem);
+  line-height: 1.1;
+}
+
+/*
+ * Below `lg` Chirpy hides page titles with display:none because the topbar
+ * repeats them. Keep the h1 for assistive tech and hide it visually instead.
+ */
+h1.dynamic-title {
+  @include bp.lt(bp.get(lg)) {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+.page-intro-mascot {
+  flex: none;
+  width: 7rem;
+  height: auto;
+  rotate: -6deg;
+
+  @include bp.lt(bp.get(sm)) {
+    display: none;
+  }
+
+  @include bp.md {
+    width: 10.5rem;
+  }
+}
+
+/* Twitch player on the Live tab. Twitch asks for at least 300px of height. */
+.twitch-player {
+  width: 100%;
+  min-height: 300px;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 1.5rem;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background-color: #000000;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

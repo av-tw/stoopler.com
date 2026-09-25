@@ -1,0 +1,124 @@
+/* Blog timeline, categories, search results, and the 404 screen. */
+
+@use 'tokens' as t;
+
+#archives {
+  letter-spacing: 0;
+
+  .year {
+    font-family: t.$font-mono;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--heading-color);
+
+    &::after {
+      box-shadow: none;
+    }
+  }
+
+  ul li {
+    /* Chirpy paints zebra stripes from theme-scoped selectors that outrank this one */
+    &:nth-child(odd) {
+      background: none !important;
+    }
+
+    a {
+      color: var(--heading-color);
+      font-weight: 500;
+
+      &::before {
+        box-shadow: none;
+      }
+
+      &:hover {
+        color: var(--link-color);
+      }
+    }
+  }
+
+  .date {
+    font-family: t.$font-mono;
+    color: var(--text-muted-color);
+
+    &.day {
+      font-family: t.$font-mono;
+    }
+  }
+}
+
+.categories .card-header,
+#page-category h1,
+#page-tag h1 {
+  font-weight: 600;
+}
+
+#search-results {
+  > article h2 {
+    line-height: 1.35;
+  }
+
+  a {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: inherit;
+  }
+}
+
+/*
+ * 404: the brand's "blue screen" stream-offline card, rebuilt in HTML.
+ * It stays blue in both themes on purpose.
+ */
+.bsod {
+  margin-top: 2rem;
+  padding: clamp(1.75rem, 5vw, 3.5rem);
+  border-radius: 0.6rem;
+  background-color: t.$dark-error-blue;
+  color: #ffffff;
+  font-family: t.$font-mono;
+  font-size: 1.05rem;
+  line-height: 1.7;
+
+  ::selection {
+    background-color: #ffffff;
+    color: t.$dark-error-blue;
+  }
+
+  p,
+  h1 {
+    margin: 0 0 1.4rem;
+    color: inherit;
+    font: inherit;
+    letter-spacing: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+    border: 0;
+
+    &:hover {
+      color: inherit;
+      background-color: rgb(255 255 255 / 15%);
+    }
+
+    &:focus-visible {
+      outline-color: #ffffff;
+    }
+  }
+}
+
+.bsod .bsod-label {
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  padding: 0 0.5rem;
+  background-color: t.$mid-chrome;
+  color: t.$dark-error-blue;
+  font-weight: 700;
+}

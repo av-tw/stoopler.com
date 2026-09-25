@@ -1,0 +1,221 @@
+/* The memo-pad sidebar: graph paper, wordmark, doodle nav, Twitch link. */
+
+@use 'abstracts/breakpoints' as bp;
+
+$grid: 24px;
+
+#sidebar {
+  border-right: 1px solid var(--sidebar-border-color);
+  background-color: var(--sidebar-bg);
+  background-image:
+    linear-gradient(var(--st-paper-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--st-paper-grid) 1px, transparent 1px);
+  background-size: $grid $grid;
+  background-position: -1px -1px;
+}
+
+.sidebar-profile {
+  width: 100%;
+  padding: 2.25rem 1.5rem 1.5rem;
+
+  @include bp.xxxl {
+    padding-top: 3rem;
+  }
+}
+
+.profile-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  width: fit-content;
+  margin: 0 auto;
+  border-radius: 0.75rem;
+
+  &:hover .sidebar-avatar {
+    rotate: -8deg;
+    scale: 1.04;
+  }
+}
+
+.wordmark {
+  display: block;
+  width: 9.5rem;
+  aspect-ratio: 833.3 / 199.8;
+  background-color: var(--sidebar-active-color);
+  -webkit-mask: var(--wordmark) center / contain no-repeat;
+  mask: var(--wordmark) center / contain no-repeat;
+}
+
+.sidebar-avatar {
+  display: block;
+  width: 6.5rem;
+  height: 6.5rem;
+  transition: rotate 0.2s ease, scale 0.2s ease;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  width: 100%;
+
+  ul {
+    margin: 0;
+    padding: 0 1rem;
+    list-style: none;
+
+    @include bp.xxxl {
+      padding: 0 1.5rem;
+    }
+  }
+
+  li + li {
+    margin-top: 0.2rem;
+  }
+}
+
+#sidebar .sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.6rem;
+  color: var(--sidebar-muted-color);
+  font-size: 1.02rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-active-color);
+  }
+
+  &[aria-current='page'] {
+    background-color: var(--st-active-bg);
+    color: var(--sidebar-active-color);
+    font-weight: 600;
+  }
+
+  > i {
+    width: 1.5rem;
+    text-align: center;
+  }
+}
+
+/* Hand-drawn brand doodles, tinted with the link color through a mask */
+.doodle {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: currentColor;
+  -webkit-mask: var(--doodle) center / contain no-repeat;
+  mask: var(--doodle) center / contain no-repeat;
+}
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 1.25rem 0;
+  padding: 1.25rem 0 1.5rem;
+  border-top: 1px solid var(--st-paper-rule);
+
+  @include bp.xxxl {
+    margin-inline: 1.75rem;
+  }
+}
+
+#sidebar .twitch-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--st-card-border);
+  border-radius: 0.6rem;
+  background-color: var(--st-card-bg);
+  color: var(--sidebar-active-color);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--st-twitch);
+  }
+
+  .fa-twitch {
+    color: var(--st-twitch);
+    font-size: 1.3rem;
+  }
+
+  .fa-arrow-up-right-from-square {
+    margin-left: auto;
+    color: var(--sidebar-muted-color);
+    font-size: 0.75rem;
+  }
+}
+
+.contact-links {
+  display: flex;
+  gap: 0.25rem;
+  padding-left: 0.35rem;
+
+  #sidebar & a {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: var(--sidebar-muted-color);
+    font-size: 1.05rem;
+
+    &:hover {
+      background-color: var(--sidebar-hover-bg);
+      color: var(--sidebar-active-color);
+    }
+  }
+}
+
+/* Laptop screens under ~720px tall: tighten so the Twitch link stays in view */
+@media (min-width: 850px) and (max-height: 720px) {
+  .sidebar-profile {
+    padding-top: 1.25rem;
+    padding-bottom: 1rem;
+  }
+
+  .profile-link {
+    gap: 0.6rem;
+  }
+
+  .sidebar-avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  #sidebar .sidebar-link {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+  }
+
+  .sidebar-footer {
+    margin-top: 0.75rem;
+  }
+}
+
+/* Masked shapes are backgrounds, which forced-colors mode removes */
+@media (forced-colors: active) {
+  .wordmark,
+  .doodle {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
+
+  #sidebar .sidebar-link[aria-current='page'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

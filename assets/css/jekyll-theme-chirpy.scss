@@ -1,0 +1,22 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}',
+  $font-family-base: ('IBM Plex Sans', -apple-system, 'Segoe UI', Roboto, sans-serif),
+  $font-family-heading: ('IBM Plex Sans', -apple-system, 'Segoe UI', Roboto, sans-serif),
+  $sidebar-width: 280px,
+  $sidebar-width-large: 300px,
+  $topbar-height: 4rem,
+  $search-max-width: 18rem
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* Stoopler brand layer, loaded after Chirpy so it wins ties */
+@use 'stoopler';

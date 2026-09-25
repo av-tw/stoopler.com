@@ -1,0 +1,46 @@
+{% comment %}
+  Date-rail post list shared by the home page and the category tabs.
+
+  Arguments:
+    posts: the posts to render, already ordered
+    lang: the locale key used for dates
+    show_pin: label pinned posts (only the home page orders by pin)
+{% endcomment %}
+
+{% if include.posts and include.posts.size > 0 %}
+  <div id="post-list" class="post-list">
+    {% for post in include.posts %}
+      <article class="post-row">
+        <div class="post-row-date">
+          {% include datetime.html date=post.date lang=include.lang %}
+          {% if post.pin and include.show_pin %}
+            <span class="post-row-pin">
+              <i class="fas fa-thumbtack fa-fw" aria-hidden="true"></i>
+              {{- site.data.locales[include.lang].post.pin_prompt -}}
+            </span>
+          {% endif %}
+        </div>
+
+        <div class="post-row-body">
+          <h2 class="post-row-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h2>
+
+          <p class="post-row-summary">{% include post-summary.html %}</p>
+
+          {% if post.tags.size > 0 %}
+            <ul class="tag-chips" aria-label="Tags">
+              {% for tag in post.tags %}
+                <li>
+                  <a href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/">{{ tag }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  {% include post-list-empty.html %}
+{% endif %}

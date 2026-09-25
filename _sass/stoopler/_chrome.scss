@@ -1,0 +1,259 @@
+/* Topbar, footer, and the page frame around the main column. */
+
+@use 'abstracts/breakpoints' as bp;
+@use 'tokens' as t;
+
+#topbar-wrapper {
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+#topbar {
+  button i {
+    color: var(--topbar-text-color);
+  }
+
+  #breadcrumb {
+    font-size: 0.92rem;
+    color: var(--text-muted-color);
+    padding-left: 0;
+
+    a {
+      color: var(--text-color);
+    }
+
+    span:first-child::before {
+      /* The second value gives the icon empty alt text; older browsers use the first */
+      content: '\f015';
+      content: '\f015' / '';
+      font: var(--fa-font-solid);
+      margin-right: 0.6rem;
+      color: var(--st-accent);
+    }
+
+    span:not(:last-child)::after {
+      content: '/';
+      padding: 0 0.65rem;
+      color: var(--text-muted-color);
+    }
+
+    /* Chirpy fixes the breadcrumb at 65% here, which collides with the wider search */
+    @include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
+      flex: 1 1 0;
+      width: auto;
+      min-width: 0;
+      margin-right: 1rem;
+    }
+  }
+}
+
+#topbar-title {
+  font-family: inherit;
+  font-weight: 600;
+}
+
+search {
+  position: relative;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.6rem;
+  border-color: var(--search-border-color);
+  padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+
+  @include bp.xl {
+    margin-right: 0;
+  }
+
+  i {
+    font-size: 0.95rem;
+  }
+
+  &.input-focus {
+    box-shadow: 0 0 0 1px var(--input-focus-border-color);
+  }
+}
+
+#search-input {
+  font-size: 0.95rem;
+
+  &::placeholder {
+    color: var(--search-icon-color);
+  }
+}
+
+.search-shortcut {
+  flex: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0.05rem 0.4rem;
+  border-radius: 0.35rem;
+  box-shadow: none;
+  font-family: t.$font-mono;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text-muted-color);
+  background-color: transparent;
+  border-color: var(--search-border-color);
+
+  search:focus-within & {
+    display: none;
+  }
+}
+
+/*
+ * Pages that open with `.page-intro` (home and category tabs) drop Chirpy's
+ * right-hand panel so the post list runs the full width, as in the mockup.
+ * Browsers without `:has()` keep the panel.
+ */
+#main-wrapper:has(.page-intro) {
+  #panel-wrapper {
+    display: none;
+  }
+
+  @include bp.xl {
+    main,
+    #tail-wrapper {
+      width: 100%;
+    }
+  }
+
+  /* Chirpy reserves a 4.5rem gutter for the panel at this width */
+  @include bp.xxxl {
+    main,
+    #tail-wrapper {
+      padding-right: 1.5rem !important;
+    }
+  }
+}
+
+/* Chirpy positions this for its own footer; lift it clear of the theme toggle */
+#back-to-top {
+  bottom: 5.5rem;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  height: auto;
+  padding: 1.5rem 0 2rem;
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+
+  p {
+    margin: 0 auto 0 0;
+    text-align: left;
+  }
+
+  a {
+    color: var(--text-muted-color);
+    font-weight: 400;
+
+    &:hover {
+      border-bottom: 0;
+    }
+  }
+}
+
+/* On narrow screens the page links take the first row, above copyright and the toggle */
+.site-footer-nav {
+  flex: 1 1 0;
+
+  @include bp.lt(bp.get(md)) {
+    order: -1;
+    flex-basis: 100%;
+  }
+
+  @include bp.md {
+    ul {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.site-footer-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mode-switch {
+  #mode-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: 50%;
+    color: var(--heading-color);
+    font-size: 1.1rem;
+    text-decoration: none;
+
+    &:hover {
+      background-color: var(--sidebar-hover-bg);
+    }
+
+    > i {
+      display: none;
+    }
+  }
+
+  /* Show the icon for the active mode, matching Chirpy's sidebar toggle */
+  :root[data-bs-theme='light'][data-theme-persisted] & #mode-toggle > [data-theme-mode='light'],
+  :root[data-bs-theme='dark'][data-theme-persisted] & #mode-toggle > [data-theme-mode='dark'],
+  :root:not([data-theme-persisted]) & #mode-toggle > [data-theme-mode='system'] {
+    display: block;
+  }
+
+  .dropdown-menu {
+    /* Bootstrap's `.dropdown-menu-end` is purged; Popper reads this instead */
+    --bs-position: end;
+
+    min-width: 9rem;
+    border: 1px solid var(--menu-border-color);
+    border-radius: 0.6rem;
+    background-color: var(--menu-bg);
+    box-shadow: var(--menu-shadow-color) 0 4px 16px;
+
+    &.show {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+  }
+
+  .dropdown-item {
+    gap: 0.6rem;
+    border-radius: 0.4rem;
+    color: var(--text-color);
+    font-size: 0.9rem;
+
+    > i {
+      width: 1rem;
+      color: var(--text-muted-color);
+    }
+
+    &:hover,
+    &:active,
+    &.active {
+      background-color: var(--menu-highlight-bg);
+      color: var(--menu-active-color);
+    }
+
+    &.active {
+      font-weight: 600;
+
+      &::after {
+        content: '\f00c';
+        font: var(--fa-font-solid);
+        font-size: 0.75rem;
+        margin-left: auto;
+        padding-left: 1rem;
+        color: var(--st-accent);
+      }
+    }
+  }
+}

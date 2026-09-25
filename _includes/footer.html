@@ -1,0 +1,80 @@
+<!--
+  Replaces Chirpy's footer: copyright, a short page index, and the
+  light/dark/system toggle that Chirpy normally puts in the sidebar.
+-->
+
+<footer aria-label="Site Info" class="site-footer">
+  <p class="site-footer-copy">
+    {{- '©' }} <time>{{ 'now' | date: '%Y' }}</time> {{ site.social.name | default: site.title -}}.
+  </p>
+
+  <nav aria-label="Footer" class="site-footer-nav">
+    <ul>
+      <li><a href="{{ '/' | relative_url }}">{{ site.data.locales[include.lang].tabs.home }}</a></li>
+      {% for tab in site.tabs %}
+        {% if tab.sidebar == false %}
+          {% continue %}
+        {% endif %}
+        {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
+        <li>
+          <a href="{{ tab.url | relative_url }}">
+            {{- site.data.locales[include.lang].tabs.[tab_name] | default: tab.title -}}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  {% unless site.theme_mode == 'light' or site.theme_mode == 'dark' %}
+    {%- capture icon_system -%}
+      <i class="fa-solid fa-display" data-theme-mode="system" aria-hidden="true"></i>
+    {%- endcapture -%}
+
+    {%- capture icon_light -%}
+      <i class="fa-regular fa-sun" data-theme-mode="light" aria-hidden="true"></i>
+    {%- endcapture -%}
+
+    {%- capture icon_dark -%}
+      <i class="fa-regular fa-moon" data-theme-mode="dark" aria-hidden="true"></i>
+    {%- endcapture -%}
+
+    {% comment %}
+      Chirpy's mode-toggle script expects `.dropdown-menu` to directly follow
+      `#mode-toggle`.
+    {% endcomment %}
+    <div class="btn-group dropup mode-switch">
+      <button
+        type="button"
+        class="btn btn-link"
+        aria-label="Switch color theme"
+        aria-expanded="false"
+        id="mode-toggle"
+        data-bs-toggle="dropdown"
+      >
+        {{- icon_light -}}
+        {{- icon_dark -}}
+        {{- icon_system -}}
+      </button>
+      <ul class="dropdown-menu p-1">
+        <li>
+          <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="light">
+            {{- icon_light -}}
+            {{- site.data.locales[include.lang].theme.light -}}
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="dark">
+            {{- icon_dark -}}
+            {{- site.data.locales[include.lang].theme.dark -}}
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="system">
+            {{- icon_system -}}
+            {{- site.data.locales[include.lang].theme.system -}}
+          </button>
+        </li>
+      </ul>
+    </div>
+  {% endunless %}
+</footer>

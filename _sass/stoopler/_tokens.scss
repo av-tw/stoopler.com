@@ -1,0 +1,220 @@
+/*
+ * Brand palette and the Chirpy color variables it drives.
+ *
+ * Chirpy resolves the theme onto `:root[data-bs-theme]` (and falls back to
+ * `prefers-color-scheme` when that attribute is missing), so the overrides
+ * below mirror the same three selectors.
+ */
+
+@use 'abstracts/mixins' as mx;
+
+// Brand reference sheet
+$error-blue: #0827f5;
+$dark-error-blue: #0b239b;
+$outline-blue: #212e3d;
+$cobalt-blue: #00517a;
+$memo-yellow: #f9eeca;
+$mid-blue: #1e8fd5;
+$light-blue: #40b6f2;
+$dark-chrome: #999999;
+$mid-chrome: #bababa;
+$light-chrome: #e2e2e2;
+
+$twitch-purple: #9146ff;
+
+$font-mono: ('IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace);
+
+@mixin light {
+  color-scheme: light;
+
+  /* Stoopler */
+  --st-paper-grid: rgb(120 165 170 / 26%);
+  --st-paper-rule: rgb(33 46 61 / 14%);
+  --st-accent: #{$mid-blue};
+  --st-focus: #{$error-blue};
+  --st-active-bg: #d4ecfb;
+  --st-chip-bg: #e4f3fc;
+  --st-chip-hover-bg: #cbe7fa;
+  --st-chip-text: #{$cobalt-blue};
+  --st-card-bg: rgb(255 255 255 / 72%);
+  --st-card-border: rgb(33 46 61 / 16%);
+  --st-twitch: #{$twitch-purple};
+
+  /* Framework */
+  --main-bg: #ffffff;
+  --main-border-color: #e6e8eb;
+
+  /* Common */
+  --text-color: #2b3746;
+  --text-muted-color: #5b6776;
+  --text-muted-highlight-color: #{$outline-blue};
+  --heading-color: #{$outline-blue};
+  --label-color: #3c4857;
+  --blockquote-border-color: #{$light-chrome};
+  --blockquote-text-color: #5b6776;
+  --link-color: #{$error-blue};
+  --link-underline-color: rgb(8 39 245 / 28%);
+  --link-hover-color: #{$dark-error-blue};
+  --button-bg: #ffffff;
+  --btn-border-color: #e3e5e8;
+  --checkbox-checked-color: #{$mid-blue};
+  --menu-bg: #ffffff;
+  --menu-border-color: #e3e5e8;
+  --menu-shadow-color: rgb(33 46 61 / 14%);
+  --menu-active-color: #{$outline-blue};
+  --menu-highlight-bg: rgb(30 143 213 / 10%);
+
+  /* Sidebar */
+  --sidebar-bg: #{$memo-yellow};
+  --sidebar-border-color: #eadcaf;
+  --sidebar-muted-color: #3a4656;
+  --sidebar-active-color: #{$outline-blue};
+  --sidebar-hover-bg: rgb(33 46 61 / 7%);
+  --sidebar-btn-color: #{$outline-blue};
+
+  /* Topbar */
+  --topbar-bg: rgb(255 255 255 / 90%);
+  --topbar-text-color: #{$outline-blue};
+  --search-border-color: #d9dde2;
+  --search-icon-color: #6b7684;
+  --input-focus-border-color: #{$mid-blue};
+
+  /* Home and posts */
+  --post-list-text-color: #5b6776;
+  --btn-patinator-text-color: #3c4857;
+  --btn-paginator-hover-color: var(--st-chip-bg);
+  --toc-highlight: #{$error-blue};
+  --btn-share-color: #6b7684;
+  --btn-share-hover-color: #{$error-blue};
+  --card-bg: #ffffff;
+  --card-hover-bg: #{$memo-yellow};
+  --card-shadow: rgb(33 46 61 / 10%) 0 0 0 1px;
+  --footnote-target-bg: #{$memo-yellow};
+  --tag-border: transparent;
+  --tag-hover: var(--st-chip-hover-bg);
+  --search-tag-bg: var(--st-chip-bg);
+
+  /* Archives */
+  --timeline-color: #{$light-chrome};
+  --timeline-node-bg: #{$mid-blue};
+  --timeline-year-dot-color: #ffffff;
+
+  /* Code */
+  --inline-code-bg: rgb(249 238 202 / 75%);
+  --highlighter-rouge-color: #{$outline-blue};
+  --kbd-wrap-color: #{$mid-chrome};
+}
+
+@mixin dark {
+  color-scheme: dark;
+
+  /* Stoopler */
+  --st-paper-grid: rgb(64 182 242 / 7%);
+  --st-paper-rule: rgb(255 255 255 / 12%);
+  --st-accent: #{$light-blue};
+  --st-focus: #{$light-blue};
+  --st-active-bg: rgb(64 182 242 / 18%);
+  --st-chip-bg: rgb(64 182 242 / 13%);
+  --st-chip-hover-bg: rgb(64 182 242 / 24%);
+  --st-chip-text: #8fd3f7;
+  --st-card-bg: rgb(255 255 255 / 4%);
+  --st-card-border: rgb(255 255 255 / 12%);
+  --st-twitch: #a970ff;
+
+  /* Framework */
+  --main-bg: #000000;
+  --main-border-color: #1c232b;
+
+  /* Common */
+  --text-color: #e3e7ec;
+  --text-muted-color: #98a4b1;
+  --text-muted-highlight-color: #ffffff;
+  --heading-color: #ffffff;
+  --label-color: #c6cdd5;
+  --blockquote-border-color: #2a323c;
+  --blockquote-text-color: #98a4b1;
+  --link-color: #{$light-blue};
+  --link-underline-color: rgb(64 182 242 / 35%);
+  --link-hover-color: #9ad8f8;
+  --button-bg: #0b0f14;
+  --btn-border-color: #242c35;
+  --checkbox-checked-color: #{$light-blue};
+  --menu-bg: #10161d;
+  --menu-border-color: #242c35;
+  --menu-shadow-color: rgb(0 0 0 / 60%);
+  --menu-active-color: #ffffff;
+  --menu-highlight-bg: rgb(64 182 242 / 10%);
+
+  /* Sidebar */
+  --sidebar-bg: #0f151c;
+  --sidebar-border-color: #1c232b;
+  --sidebar-muted-color: #b7c1cc;
+  --sidebar-active-color: #ffffff;
+  --sidebar-hover-bg: rgb(255 255 255 / 6%);
+  --sidebar-btn-color: #b7c1cc;
+
+  /* Topbar */
+  --topbar-bg: rgb(0 0 0 / 88%);
+  --topbar-text-color: #ffffff;
+  --search-border-color: #2a323c;
+  --search-icon-color: #8190a0;
+  --input-focus-border-color: #{$light-blue};
+
+  /* Home and posts */
+  --post-list-text-color: #98a4b1;
+  --btn-patinator-text-color: #c6cdd5;
+  --btn-paginator-hover-color: var(--st-chip-bg);
+  --toc-highlight: #{$light-blue};
+  --btn-share-color: #8190a0;
+  --btn-share-hover-color: #{$light-blue};
+  --card-bg: #0b0f14;
+  --card-hover-bg: #10161d;
+  --card-shadow: rgb(255 255 255 / 10%) 0 0 0 1px;
+  --footnote-target-bg: rgb(64 182 242 / 22%);
+  --tag-border: transparent;
+  --tag-hover: var(--st-chip-hover-bg);
+  --search-tag-bg: var(--st-chip-bg);
+
+  /* Chirpy's neutral grays, moved onto the blue-black ramp */
+  --card-header-bg: #10161d;
+  --categories-border: #1c232b;
+  --categories-hover-bg: #1c232b;
+  --categories-icon-hover-color: #{$light-blue};
+  --tb-odd-bg: #0b0f14;
+  --tb-even-bg: #000000;
+  --tb-border-color: #1c232b;
+  --kbd-bg-color: #10161d;
+  --kbd-text-color: #e3e7ec;
+  --img-bg: #0b0f14;
+  --toc-popup-border-color: #242c35;
+  --highlight-bg-color: #0b0f14;
+  --code-header-muted-color: #3a4450;
+
+  /* Archives */
+  --timeline-color: #1c232b;
+  --timeline-node-bg: #{$light-blue};
+  --timeline-year-dot-color: #000000;
+
+  /* Code */
+  --inline-code-bg: rgb(255 255 255 / 9%);
+  --highlighter-rouge-color: #e3e7ec;
+  --kbd-wrap-color: #3a4450;
+}
+
+:root[data-bs-theme='light'] {
+  @include light;
+}
+
+:root[data-bs-theme='dark'] {
+  @include dark;
+}
+
+:root:not([data-bs-theme]) {
+  @include mx.color-scheme(light) {
+    @include light;
+  }
+
+  @include mx.color-scheme(dark) {
+    @include dark;
+  }
+}
